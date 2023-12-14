@@ -1,29 +1,35 @@
-import timeit
-from integrate import integrate
+from int_class import IntegrateThread
 from math import sin, cos, tan
-
+from timeit import timeit
 
 if __name__ == '__main__':
-    print("Function sin, a = 3, b = 5")
-    # python -m timeit -s "from integrate import integrate; from math import sin" "integrate(sin, 3, 5, n_iter=1000)"
-    print("Iterations = 1000\tresult = " + str(integrate(sin, 3, 5, 1000)) + "\tat 155 usec per loop")
-    # python -m timeit -s "from integrate import integrate; from math import sin" "integrate(sin, 3, 5, n_iter=10000)"
-    print("Iterations = 10000\tresult = " + str(integrate(sin, 3, 5, 10000)) + "\tat 1.63 msec per loop")
-    # python -m timeit -s "from integrate import integrate; from math import sin" "integrate(sin, 3, 5, n_iter=100000)"
-    print("Iterations = 100000\tresult = " + str(integrate(sin, 3, 5, 100000)) + "\tat 15.3 msec per loop")
+    sin100000 = IntegrateThread(sin, 3, 5, 100000)
+    cos100000 = IntegrateThread(cos, 3, 5, 100000)
+    tan100000 = IntegrateThread(tan, 3, 5, 100000)
+    
+    print("Function (sin, a = 3, b = 5, iterations = 100000) = " + str(sin100000.integrate()))
+    print("Time = " + str(round(timeit("sin100000 = IntegrateThread(math.sin, 3, 5, 100000)\nsin100000.integrate()", setup="from int_class import IntegrateThread\nimport math", number=10), 4)))
+    
+    print("Function (sin, a = 3, b = 5, iterations = 100000, 2 threads) = " + str(sin100000.integrateThreads(2)))
+    print("Time = " + str(round(timeit("sin100000 = IntegrateThread(math.sin, 3, 5, 100000)\nsin100000.integrateThreads(2)", setup="from int_class import IntegrateThread\nimport math", number=10), 4)))
+    
+    print("Function (sin, a = 3, b = 5, iterations = 100000, 4 threads) = " + str(sin100000.integrateThreads(4)))
+    print("Time = " + str(round(timeit("sin100000 = IntegrateThread(math.sin, 3, 5, 100000)\nsin100000.integrateThreads(4)", setup="from int_class import IntegrateThread\nimport math", number=10), 4)))
+    
+    print("\nFunction (cos, a = 3, b = 5, iterations = 100000) = " + str(cos100000.integrate()))
+    print("Time = " + str(round(timeit("cos100000 = IntegrateThread(math.cos, 3, 5, 100000)\ncos100000.integrate()", setup="from int_class import IntegrateThread\nimport math", number=10), 4)))
+    
+    print("Function (cos, a = 3, b = 5, iterations = 100000, 2 threads) = " + str(cos100000.integrateThreads(2)))
+    print("Time = " + str(round(timeit("cos100000 = IntegrateThread(math.cos, 3, 5, 100000)\ncos100000.integrateThreads(2)", setup="from int_class import IntegrateThread\nimport math", number=10), 4)))
+    
+    print("Function (cos, a = 3, b = 5, iterations = 100000, 4 threads) = " + str(cos100000.integrateThreads(4)))
+    print("Time = " + str(round(timeit("cos100000 = IntegrateThread(math.cos, 3, 5, 100000)\ncos100000.integrateThreads(4)", setup="from int_class import IntegrateThread\nimport math", number=10), 4)))
+    
+    print("\nFunction (tan, a = 3, b = 5, iterations = 100000) = " + str(tan100000.integrate()))
+    print("Time = " + str(round(timeit("tan100000 = IntegrateThread(math.tan, 3, 5, 100000)\ntan100000.integrate()", setup="from int_class import IntegrateThread\nimport math", number=10), 4)))
+    
+    print("Function (tan, a = 3, b = 5, iterations = 100000, 2 threads) = " + str(tan100000.integrateThreads(2)))
+    print("Time = " + str(round(timeit("tan100000 = IntegrateThread(math.tan, 3, 5, 100000)\ntan100000.integrateThreads(2)", setup="from int_class import IntegrateThread\nimport math", number=10), 4)))
 
-    print("\nFunction cos, a = 3, b = 5")
-    # python -m timeit -s "from integrate import integrate; from math import cos" "integrate(cos, 0, 1, n_iter=1000)"
-    print("Iterations = 1000\tresult = " + str(integrate(cos, 3, 5, 1000)) + "\tat 155 usec per loop")
-    # python -m timeit -s "from integrate import integrate; from math import cos" "integrate(cos, 0, 1, n_iter=10000)"
-    print("Iterations = 10000\tresult = " + str(integrate(cos, 3, 5, 10000)) + "\tat 1.46 msec per loop")
-    # python -m timeit -s "from integrate import integrate; from math import cos" "integrate(cos, 0, 1, n_iter=100000)"
-    print("Iterations = 100000\tresult = " + str(integrate(cos, 3, 5, 100000)) + "\tat 14.9 msec per loop")
-
-    print("\nFunction tan, a = 3, b = 5")
-    # python -m timeit -s "from integrate import integrate; from math import tan" "integrate(tan, 0, 1, n_iter=1000)"
-    print("Iterations = 1000\tresult = " + str(integrate(tan, 3, 5, 1000)) + "\tat 154 usec per loop")
-    # python -m timeit -s "from integrate import integrate; from math import tan" "integrate(tan, 0, 1, n_iter=10000)"
-    print("Iterations = 10000\tresult = " + str(integrate(tan, 3, 5, 10000)) + "\tat 1.66 msec per loop")
-    # python -m timeit -s "from integrate import integrate; from math import tan" "integrate(tan, 0, 1, n_iter=100000)"
-    print("Iterations = 100000\tresult = " + str(integrate(tan, 3, 5, 100000)) + "\tat 15.3 msec per loop")
+    print("Function (tan, a = 3, b = 5, iterations = 100000, 4 threads) = " + str(tan100000.integrateThreads(4)))
+    print("Time = " + str(round(timeit("tan100000 = IntegrateThread(math.tan, 3, 5, 100000)\ntan100000.integrateThreads(4)", setup="from int_class import IntegrateThread\nimport math", number=10), 4)))
