@@ -1,8 +1,11 @@
 import threading
+from concurrent.futures import as_completed, ThreadPoolExecutor
+from functools import partial
 from threading import Lock
 
 
 class IntegrateThread(threading.Thread):
+
     def __init__(self, f, a, b, n_iter):
         super().__init__()
         self._value = 0
@@ -11,7 +14,7 @@ class IntegrateThread(threading.Thread):
         self._b = b
         self._n_iter = n_iter
         self._lock = Lock()
-        
+
     def integrate(self):
         h = (self._b - self._a) / self._n_iter
         fsum = 0
@@ -20,8 +23,8 @@ class IntegrateThread(threading.Thread):
             fsum += self._f(hsum)
             hsum += h
         res = round(h * ((self._f(self._a) + self._f(self._b)) / 2 + fsum), 8)
-        return(round(res, 4))
-    
+        return (round(res, 4))
+
     def integrateThreads(self, threads):
         h = (self._b - self._a) / threads
         n_iter = self._n_iter // threads
@@ -37,12 +40,11 @@ class IntegrateThread(threading.Thread):
             i.join()
             res += i.get()
         return (round(res, 4))
-    
+
     def run(self):
         self._lock.acquire()
         self._value = self.integrate()
         self._lock.release()
-    
+
     def get(self):
-        return self._value   
-    
+        return self._value
